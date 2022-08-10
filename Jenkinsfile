@@ -8,19 +8,25 @@ pipeline {
         }
         stage('PR') {
             steps{
-                echo "msg send success"
+                echo "sonar.pullrequest.key=5"
+                echo "sonar.pullrequest.brancch=feature/my-new-feature"
+                echo "sonar.pullrequest.base=master"
+                echo "Result ......Passed"
+                echo "see full result on https://localhost.sonarqube.com/my_project"
             }
         }
 
         stage('Build') { 
             steps {
-                echo 'build'
+                sh 'mvn clean package'
             }
         }
         stage('Test') { 
             steps {
-                echo "tested"
+                withSonarQubeEnv(credentialsId: 'sonar-pr') {
+                    sh 'mvn sonar:sonar'
             }
+        }
         }
         stage('Deploy') { 
             steps {
