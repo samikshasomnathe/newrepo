@@ -6,6 +6,12 @@ pipeline {
                 git 'https://github.com/samikshasomnathe/studentapp-ui'
             }
         }
+        stage('PR') {
+            steps{
+                echo "msg send success"
+            }
+        }
+
         stage('Build') { 
             steps {
                 echo 'build'
